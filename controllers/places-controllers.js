@@ -1,7 +1,9 @@
 const uuid = require("uuid").v4;
 const { validationResult } = require("express-validator");
+
 const HttpError = require("../models/http-error");
 const getCoordsForAddress = require("../util/location");
+const Place = require("../models/place");
 
 let DUMMY_PLACES = [
   {
@@ -42,7 +44,7 @@ const getPlacesByUserId = (req, res, next) => {
   res.json({ places });
 };
 
-const createPlace = (req, res, next) => {
+const createPlace = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new HttpError("Invalid inputs passed, please check your data.", 422);
@@ -50,15 +52,25 @@ const createPlace = (req, res, next) => {
   const { title, description, address, creator } = req.body;
 
   let coordinates = getCoordsForAddress(address);
-  const createdPlace = {
-    id: uuid(),
+  const createdPlace = new Place({
     title,
     description,
     location: coordinates,
     address,
+    image:
+      "https://www.tendenciashoy.com/wp-content/uploads/2020/07/empire-state-building-foto-neil-cooper-unsplash-scaled.jpeg",
     creator,
-  };
-  DUMMY_PLACES.push(createdPlace);
+  });
+
+  try {
+    await createdPlace.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Creating place failed, please try again.",
+      500
+    );
+    return next(error);
+  }
   res.status(201).json({ place: createdPlace });
 };
 
