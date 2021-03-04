@@ -30,7 +30,7 @@ const signup = async (req, res, next) => {
   if (!errors.isEmpty()) {
     next(new HttpError("Invalid inputs passed, please check your data.", 422));
   }
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
 
   let existingUser;
   try {
@@ -56,7 +56,7 @@ const signup = async (req, res, next) => {
     email,
     password,
     image: "https://wallpapercave.com/wp/wp6803095.jpg",
-    places,
+    places: [],
   });
 
   try {
