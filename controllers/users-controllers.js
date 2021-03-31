@@ -46,7 +46,7 @@ const signup = async (req, res, next) => {
     name,
     email,
     password,
-    image: "https://wallpapercave.com/wp/wp6803095.jpg",
+    image: req.file.path,
     places: [],
   });
 
