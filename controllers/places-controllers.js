@@ -67,8 +67,7 @@ const createPlace = async (req, res, next) => {
     description,
     location: coordinates,
     address,
-    image:
-      "https://www.tendenciashoy.com/wp-content/uploads/2020/07/empire-state-building-foto-neil-cooper-unsplash-scaled.jpeg",
+    image: req.file.path,
     creator,
   });
 
