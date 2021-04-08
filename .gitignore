@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .env
+nodemon.json
 
 # testing
 /coverage
