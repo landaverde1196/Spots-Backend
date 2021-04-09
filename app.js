@@ -12,8 +12,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/uploads/images', express.static(path.join('uploads', 'images')));
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -24,8 +22,11 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+
 app.use('/api/places', placesRoutes);
 app.use('/api/users', userRoutes);
+
 app.use((req, res, next) => {
     const error = new HttpError('Could not find this route.', 404);
     throw error;
