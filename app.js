@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
 const fs = require('fs');
 const path = require('path');
 
@@ -12,6 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use((req, res, next) => {
